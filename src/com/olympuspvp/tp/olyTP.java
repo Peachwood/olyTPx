@@ -52,6 +52,7 @@ public class olyTP extends JavaPlugin{
 			matches = Bukkit.matchPlayer(from);
 			if(matches.size() !=1){
 				p.sendMessage(tag + from + " could not be found.");
+				return true;
 			}
 			Player pfrom = matches.get(0);
 			pfrom.teleport(pto, TeleportCause.PLUGIN);

@@ -37,6 +37,11 @@ public class olyTP extends JavaPlugin{
 		
 			}
 			Player pto=matches.get(0);
+			if(p==pto){
+				p.sendMessage(tag+"You dingus, you can't teleport to yourself!");
+				return true;
+				
+			}
 			p.teleport(pto, TeleportCause.PLUGIN);
 			p.sendMessage(tag+"Teleporting you to "+ChatColor.GOLD+pto.getName());
 			

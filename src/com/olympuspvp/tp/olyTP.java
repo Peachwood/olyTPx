@@ -37,9 +37,11 @@ public class olyTP extends JavaPlugin{
 			if(p==pto){
 				p.sendMessage(tag+"You cannot teleport to yourself.");
 				return true;
-			}p.teleport(pto, TeleportCause.PLUGIN);
-			p.sendMessage(tag + "Teleporting you to " + ChatColor.GOLD + pto.getName());
-			if(p.isOp() || p.hasPermission("olyTP.use")) pto.sendMessage(tag+ ChatColor.GOLD + p.getName() + ChatColor.YELLOW +  " teleported to you.");
+			}boolean success = p.teleport(pto, TeleportCause.PLUGIN);
+			if(success){
+				p.sendMessage(tag + "Teleporting you to " + ChatColor.GOLD + pto.getName());
+				if(p.isOp() || p.hasPermission("olyTP.use")) pto.sendMessage(tag+ ChatColor.GOLD + p.getName() + ChatColor.YELLOW +  " teleported to you.");
+			}else p.sendMessage(tag + "Teleport failed. Is the player dead?");
 		}else if(args.length == 2){
 			String to = args[1];
 			String from = args[0];
@@ -55,10 +57,12 @@ public class olyTP extends JavaPlugin{
 				return true;
 			}
 			Player pfrom = matches.get(0);
-			pfrom.teleport(pto, TeleportCause.PLUGIN);
-			pfrom.sendMessage(tag + "Teleporting you to " + ChatColor.GOLD + pto.getName());
-			if(!p.equals(pfrom) && !(p.equals(pto))) p.sendMessage(tag + "Teleporting " + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " to " + ChatColor.GOLD + pto.getName());
-			pto.sendMessage(tag + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " has been teleported to you.");
+			boolean success = pfrom.teleport(pto, TeleportCause.PLUGIN);
+			if(success){
+				pfrom.sendMessage(tag + "Teleporting you to " + ChatColor.GOLD + pto.getName());
+				if(!p.equals(pfrom) && !(p.equals(pto))) p.sendMessage(tag + "Teleporting " + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " to " + ChatColor.GOLD + pto.getName());
+				pto.sendMessage(tag + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " has been teleported to you.");
+			}else p.sendMessage(tag + "Teleport failed. Is the player dead?");
 			return true;
 		}else{
 			p.sendMessage(tag + "Incorrect usage. /tp {player} {player}");

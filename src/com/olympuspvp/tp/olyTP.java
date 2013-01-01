@@ -54,10 +54,13 @@ public class olyTP extends JavaPlugin{
 				p.sendMessage(tag + from + " could not be found.");
 			}
 			Player pfrom = matches.get(0);
-			p.teleport(pto, TeleportCause.PLUGIN);
+			pfrom.teleport(pto, TeleportCause.PLUGIN);
 			pfrom.sendMessage(tag + "Teleporting you to " + ChatColor.GOLD + pto.getName());
-			p.sendMessage(tag + "Teleporting " + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " to " + ChatColor.GOLD + pto.getName());
+			if(!p.equals(pfrom) && !(p.equals(pto))) p.sendMessage(tag + "Teleporting " + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " to " + ChatColor.GOLD + pto.getName());
 			pto.sendMessage(tag + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " has been teleported to you.");
+			return true;
+		}else{
+			p.sendMessage(tag + "Incorrect usage. /tp {player} {player}");
 			return true;
 		}return true;
 	}

@@ -1,0 +1,9 @@
+name: olyTP
+main: com.olympuspvp.tp.olyTP
+version: 0.1b
+author: willno123
+description: Admin teleport
+
+commands:
+    tp:
+        description: Teleports

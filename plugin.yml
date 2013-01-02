@@ -7,3 +7,5 @@ description: Admin teleport
 commands:
     tp:
         description: Teleports
+    back:
+        description: Teleports players back to their previous location

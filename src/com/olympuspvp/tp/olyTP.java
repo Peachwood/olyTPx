@@ -17,56 +17,72 @@ public class olyTP extends JavaPlugin{
 	@Override
 	public void onEnable(){
 		System.out.println("[olyTP] olyTP by willno123 (badass coderleetzors) has been enabled!");
+		new CommandBack(this);
 	}
 
 	public boolean onCommand(CommandSender s, Command cmd, String c, String[] args){
+		
 		if(s instanceof Player == false){
 			System.out.println("[olyTP] Go home console, you're drunk.");
 			return true;
-		}Player p = (Player)s;
-		if((p.isOp()==false)&&(p.hasPermission("olyTP.use")==false)){
-			p.sendMessage(tag+"You do not have permission to use this command.");
 		}
-		if(args.length==1){
-			String to = args[0];
-			List<Player> matches = Bukkit.matchPlayer(to);
-			if(matches.size() !=1){
-				p.sendMessage(tag+"The player could not be found.");
-				return true;
-			}Player pto=matches.get(0);
-			if(p==pto){
-				p.sendMessage(tag+"You cannot teleport to yourself.");
-				return true;
-			}boolean success = p.teleport(pto, TeleportCause.PLUGIN);
-			if(success){
-				p.sendMessage(tag + "Teleporting you to " + ChatColor.GOLD + pto.getName());
-				if(p.isOp() || p.hasPermission("olyTP.use")) pto.sendMessage(tag+ ChatColor.GOLD + p.getName() + ChatColor.YELLOW +  " teleported to you.");
-			}else p.sendMessage(tag + "Teleport failed. Is the player dead?");
-		}else if(args.length == 2){
-			String to = args[1];
-			String from = args[0];
-			List<Player> matches = Bukkit.matchPlayer(to);
-			if(matches.size() !=1){
-				p.sendMessage(tag + to + " could not be found.");
-				return true;
+		
+		Player p = (Player)s;
+		
+		if(c.equalsIgnoreCase("tp")){
+			if((p.isOp()==false)&&(p.hasPermission("olyTP.use")==false)){
+				p.sendMessage(tag+"You do not have permission to use this command.");
 			}
-			Player pto = matches.get(0);
-			matches = Bukkit.matchPlayer(from);
-			if(matches.size() !=1){
-				p.sendMessage(tag + from + " could not be found.");
+			
+			if(args.length==1){
+				
+				String to = args[0];
+				List<Player> matches = Bukkit.matchPlayer(to);
+				if(matches.size() !=1){
+					p.sendMessage(tag+"The player could not be found.");
+					return true;
+				}Player pto=matches.get(0);
+				if(p==pto){
+					p.sendMessage(tag+"You cannot teleport to yourself.");
+					return true;
+				}boolean success = p.teleport(pto, TeleportCause.PLUGIN);
+				if(success){
+					p.sendMessage(tag + "Teleporting you to " + ChatColor.GOLD + pto.getName());
+					if(p.isOp() || p.hasPermission("olyTP.use")) pto.sendMessage(tag+ ChatColor.GOLD + p.getName() + ChatColor.YELLOW +  " teleported to you.");
+				}else p.sendMessage(tag + "Teleport failed. Is the player dead?");
+				
+			}else if(args.length == 2){
+				
+				String to = args[1];
+				String from = args[0];
+				List<Player> matches = Bukkit.matchPlayer(to);
+				if(matches.size() !=1){
+					p.sendMessage(tag + to + " could not be found.");
+					return true;
+				}
+				Player pto = matches.get(0);
+				matches = Bukkit.matchPlayer(from);
+				if(matches.size() !=1){
+					p.sendMessage(tag + from + " could not be found.");
+					return true;
+				}
+				Player pfrom = matches.get(0);
+				boolean success = pfrom.teleport(pto, TeleportCause.PLUGIN);
+				if(success){
+					pfrom.sendMessage(tag + "Teleporting you to " + ChatColor.GOLD + pto.getName());
+					if(!p.equals(pfrom) && !(p.equals(pto))) p.sendMessage(tag + "Teleporting " + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " to " + ChatColor.GOLD + pto.getName());
+					pto.sendMessage(tag + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " has been teleported to you.");
+				}else p.sendMessage(tag + "Teleport failed. Is the player dead?");
 				return true;
-			}
-			Player pfrom = matches.get(0);
-			boolean success = pfrom.teleport(pto, TeleportCause.PLUGIN);
-			if(success){
-				pfrom.sendMessage(tag + "Teleporting you to " + ChatColor.GOLD + pto.getName());
-				if(!p.equals(pfrom) && !(p.equals(pto))) p.sendMessage(tag + "Teleporting " + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " to " + ChatColor.GOLD + pto.getName());
-				pto.sendMessage(tag + ChatColor.GOLD + pfrom.getName() + ChatColor.YELLOW + " has been teleported to you.");
-			}else p.sendMessage(tag + "Teleport failed. Is the player dead?");
-			return true;
-		}else{
-			p.sendMessage(tag + "Incorrect usage. /tp {player} {player}");
-			return true;
-		}return true;
+			}else{
+				p.sendMessage(tag + "Incorrect usage. /tp {player} {player}");
+				return true;
+			}return true;
+		}else if(c.equalsIgnoreCase("tphere")){
+			//tphere command
+		}
+		
+		else if(c.equalsIgnoreCase("back")) CommandBack.goBack(p);
+		return true;
 	}
 }

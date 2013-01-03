@@ -28,11 +28,13 @@ public class olyTP extends JavaPlugin{
 		}
 		
 		Player p = (Player)s;
+		if((p.isOp()==false)&&(p.hasPermission("olyTP.use")==false)){
+			p.sendMessage(tag+"You do not have permission to use this command.");
+			return true;
+		}
 		
 		if(c.equalsIgnoreCase("tp")){
-			if((p.isOp()==false)&&(p.hasPermission("olyTP.use")==false)){
-				p.sendMessage(tag+"You do not have permission to use this command.");
-			}
+			
 			
 			if(args.length==1){
 				
@@ -79,7 +81,24 @@ public class olyTP extends JavaPlugin{
 				return true;
 			}return true;
 		}else if(c.equalsIgnoreCase("tphere")){
-			//tphere command
+			if(args.length == 0){
+				p.sendMessage(tag + "Usage: /tphere <name>");
+				return true;
+			}
+			String to = args[0];
+			List<Player> matches = Bukkit.matchPlayer(to);
+			if(matches.size() !=1){
+				p.sendMessage(tag+"The player could not be found.");
+				return true;
+			}Player pto=matches.get(0);
+			if(p==pto){
+				p.sendMessage(tag+"You cannot teleport to yourself.");
+				return true;
+			}boolean success = pto.teleport(p, TeleportCause.PLUGIN);
+			if(success){
+				pto.sendMessage(tag + "Teleporting you to " + ChatColor.GOLD + p.getName());
+				if(p.isOp() || p.hasPermission("olyTP.use")) p.sendMessage(tag+ ChatColor.GOLD + pto.getName() + ChatColor.YELLOW +  " has been teleported to you.");
+			}else p.sendMessage(tag + "Teleport failed. Is the player dead?");
 		}
 		
 		else if(c.equalsIgnoreCase("back")) CommandBack.goBack(p);
